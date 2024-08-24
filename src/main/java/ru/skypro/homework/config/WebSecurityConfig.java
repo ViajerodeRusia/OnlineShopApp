@@ -10,9 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import ru.skypro.homework.controller.dto.enums.Role;
+
+import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -34,7 +37,7 @@ public class WebSecurityConfig {
         UserDetails user = User.builder()
                 .username("user@gmail.com")
                 .password(passwordEncoder.encode("password"))
-                .roles(Role.USER.name())
+                .roles(Role.ADMIN.name())
                 .build();
         return new InMemoryUserDetailsManager(user);
     }
