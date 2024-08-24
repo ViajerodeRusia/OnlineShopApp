@@ -40,7 +40,6 @@ public class WebSecurityConfig {
     }
 
     @Bean
-//    @PreAuthorize("hasRole") - проверка роли пользователя
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()

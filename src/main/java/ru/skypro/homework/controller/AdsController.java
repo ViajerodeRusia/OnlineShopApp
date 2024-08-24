@@ -3,6 +3,7 @@ package ru.skypro.homework.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.controller.dto.*;
 import ru.skypro.homework.db.entity.Ad;
@@ -11,6 +12,9 @@ import ru.skypro.homework.service.AdService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Контроллер для работы с объявлениями
+ */
 @RestController
 @RequestMapping("/ads")
 public class AdsController {
