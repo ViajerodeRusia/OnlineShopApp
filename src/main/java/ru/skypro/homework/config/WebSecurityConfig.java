@@ -33,17 +33,16 @@ public class WebSecurityConfig {
     };
 
     @Bean
-    public UserDetailsManager userDetailsManager(PasswordEncoder passwordEncoder) {
-        UserDetails user = User.builder()
-                .username("user@gmail.com")
-                .password(passwordEncoder.encode("password"))
-                .roles(Role.ADMIN.name())
-                .build();
-        return new InMemoryUserDetailsManager(user);
+    public UserDetailsManager userDetailsManager(DataSource dataSource, PasswordEncoder passwordEncoder) {
+       JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        // Настройка SQL-запроса для выборки пользователя
+       jdbcUserDetailsManager.setUsersByUsernameQuery("SELECT email, password, CASE WHEN role = 'ADMIN' THEN 'true' ELSE 'false' END AS enabled FROM users WHERE email = ?");
+        // Настройка SQL-запроса для выборки ролей пользователя
+       jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT email, role FROM users WHERE email = ?");
+       return jdbcUserDetailsManager;
     }
 
     @Bean
-//    @PreAuthorize("hasRole") - проверка роли пользователя
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
@@ -52,10 +51,13 @@ public class WebSecurityConfig {
                                 authorization
                                         .mvcMatchers(AUTH_WHITELIST)
                                         .permitAll()
+                                        .mvcMatchers("/auth/register")
+                                        .permitAll()
                                         .mvcMatchers("/ads/**", "/users/**")
                                         .authenticated())
                 .cors()
                 .and()
+                .csrf().disable()
                 .httpBasic(withDefaults());
         return http.build();
     }
