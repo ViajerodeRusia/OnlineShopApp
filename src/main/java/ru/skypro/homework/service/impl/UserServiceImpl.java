@@ -7,8 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.skypro.homework.controller.dto.CreatedByAuthorDto;
 import ru.skypro.homework.controller.dto.UserDto;
-import ru.skypro.homework.db.entity.CreatedByUser;
 import ru.skypro.homework.db.entity.User;
 import ru.skypro.homework.db.repository.UserRepository;
 import ru.skypro.homework.mapper.UserMapper;
@@ -74,10 +74,11 @@ public class UserServiceImpl implements UserService {
      * @return User         Текущий авторизованный пользователь
      */
     public User getCurrentUser() {
+
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
-        return userRepository.findByEmail(name);
+        return userRepository.findByEmail(name).get();
     }
 
     /**
@@ -85,10 +86,10 @@ public class UserServiceImpl implements UserService {
      *
      * @return boolean
      */
-    public boolean hasPermission(CreatedByUser entity) {
+    public boolean hasPermission(CreatedByAuthorDto entity) {
         User currentUser = getCurrentUser();
         var currentUserId = currentUser.getId();
-        var authorId = entity.getUser().getId();
+        var authorId = entity.getAuthor();
 
         return currentUserId.equals(authorId);
     }

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdDto {
-    private Integer author;
+public class AdDto implements CreatedByAuthorDto {
+    private Long author;
     private String image;
     private Integer pk;
     private Integer price;

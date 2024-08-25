@@ -30,7 +30,7 @@ public class AdServiceImpl implements AdService {
     /**
      * Метод создает новый объект объявления.
      *
-     * @param adDto             Объект объявления для создания.
+     * @param adDto Объект объявления для создания.
      * @return AdDto            Созданный объект объявления.
      */
     @Override
@@ -45,8 +45,7 @@ public class AdServiceImpl implements AdService {
     /**
      * Метод ищет объявление по его идентификатору.
      *
-     * @param id         Идентификатор объявления для поиска.
-     *
+     * @param id Идентификатор объявления для поиска.
      * @return AdDto     Найденный объект объявления
      */
     @Override
@@ -72,9 +71,8 @@ public class AdServiceImpl implements AdService {
     /**
      * Метод обновляет объявление пользователя по его идентификатору.
      *
-     * @param id         Идентификатор объявления для обновления.
-     * @param adDto      Объект для обновления
-     *
+     * @param id    Идентификатор объявления для обновления.
+     * @param adDto Объект для обновления
      * @return AdDto     Обновленный объект объявления
      */
     @Override
@@ -90,10 +88,11 @@ public class AdServiceImpl implements AdService {
     /**
      * Метод удаляет объявление пользователя по его идентификатору.
      *
-     * @param id         Идентификатор объявления для удаления.
+     * @param id Идентификатор объявления для удаления.
      */
     @Override
     @PreAuthorize("hasRole('ADMIN') or @userServiceImpl.hasPermission(@adServiceImpl.getAdById(#id))")
+    //@PreAuthorize("hasRole('ADMIN') or @userServiceImpl.hasPermission(@adServiceImpl.getAdById(#id))")
     public void deleteAd(Long id) {
         adRepository.deleteById(id);
     }

@@ -53,7 +53,7 @@ public class AdsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAd(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAd(@PathVariable Long id, Authentication authentication) {
         adService.deleteAd(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
