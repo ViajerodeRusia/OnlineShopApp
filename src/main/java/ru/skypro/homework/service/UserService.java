@@ -11,10 +11,7 @@ import java.io.IOException;
 public interface UserService {
     boolean setPassword(NewPassword newPasswordDto, String email);
     UserDto getUser(String email);
-
-    UserDto updateUser(UserDto userDto, String email);
-
-    UserDto updateUserDto(UpdateUser updateUserDto, Long id);
+    UserDto updateUser(UpdateUser updateUser, String email);
     void updateAvatar(MultipartFile image, String email);
     byte[] getImage(String name) throws IOException;
 }

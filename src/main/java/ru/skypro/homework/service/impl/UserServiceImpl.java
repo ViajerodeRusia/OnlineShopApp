@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
@@ -60,25 +60,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto, String email) {
+    public UserDto updateUser(UpdateUser updateUser, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(email));
-        userMapper.updateEntityFromDto(userDto, user);
+        userMapper.updateUser(updateUser, user);
         userRepository.save(user);
-        log.trace("User updated");
+        log.info("Обновлен пользователь с email: " + email);
         return userMapper.toDto(user);
     }
 
-    @Override
-    public UserDto updateUserDto(UpdateUser updateUserDto, Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserWithIdNotFoundException("Update user with id:", id));
-
-        userMapper.updateUser(updateUserDto, user);
-        userRepository.save(user);
-        log.info("Обновлен пользователь с id: " + id);
-        return userMapper.toDto(user);
-    }
 
     @Override
     public void updateAvatar(MultipartFile image, String email) {
