@@ -29,7 +29,14 @@ public class AdsController {
         this.adService = adService;
     }
 
-    @GetMapping("/myAds")
+    //Получение всех объявлений
+    @GetMapping
+    public ResponseEntity<AdsDto> getAllAds() {
+        AdsDto adsDto = adService.getAllAds();
+        return new ResponseEntity<>(adsDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
     public ResponseEntity<AdsDto> getMyAds(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(adService.getMyAds(userDetails.getUsername()));
     }
@@ -43,11 +50,6 @@ public class AdsController {
         return ResponseEntity.ok(adService.createAd(createAds, userDetails.getUsername()));
     }
 
-    @GetMapping
-    public ResponseEntity<AdsDto> getAllAds() {
-        AdsDto adsDto = adService.getAllAds();
-        return new ResponseEntity<>(adsDto, HttpStatus.OK);
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<AdDto> updateAd(@AuthenticationPrincipal UserDetails userDetails,

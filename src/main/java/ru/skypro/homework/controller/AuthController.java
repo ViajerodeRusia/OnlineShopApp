@@ -17,6 +17,7 @@ public class AuthController {
 
     private final AuthService authService;
 
+    //Авторизация пользователя
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Login loginDto) {
         log.info("Авторизация для пользователя с именем " + loginDto.getUsername());
@@ -30,6 +31,7 @@ public class AuthController {
         }
     }
 
+    //Регистрация пользователя
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Register registerDto) {
         boolean isRegistered = authService.register(registerDto);
